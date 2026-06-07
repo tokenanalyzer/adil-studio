@@ -1,66 +1,52 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Link from "next/link";
+import { getActiveGoals, getActiveIndustries } from "@/lib/cms/public";
 
-export default function Home() {
+export default async function HomePage() {
+  const goals = await getActiveGoals();
+  const industries = await getActiveIndustries();
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="container" style={{ padding: "64px 0", display: "grid", gap: "32px" }}>
+      <section>
+        <p style={{ color: "var(--muted)", marginBottom: "12px" }}>Adil Studio V1</p>
+        <h1 style={{ fontSize: "48px", marginBottom: "16px" }}>Adaptive Digital Studio</h1>
+        <p style={{ fontSize: "18px", color: "var(--muted)", maxWidth: "760px", marginBottom: "24px" }}>
+          Goal-led, industry-aware website variants with admin-managed content, lead capture, and Adi AI support.
+        </p>
+
+        <div style={{ display: "flex", gap: "12px", flexWrap: "wrap" }}>
+          <Link href="/contact" style={{ background: "var(--primary)", color: "#fff", padding: "12px 18px", borderRadius: "12px" }}>
+            Start Project
+          </Link>
+          <Link href="/admin/login" style={{ border: "1px solid var(--border)", padding: "12px 18px", borderRadius: "12px" }}>
+            Admin Login
+          </Link>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      <section>
+        <h2 style={{ fontSize: "28px", marginBottom: "12px" }}>Goals</h2>
+        <div style={{ display: "grid", gap: "12px" }}>
+          {goals.map((goal: any) => (
+            <div key={goal.id} style={{ padding: "16px", border: "1px solid var(--border)", borderRadius: "16px" }}>
+              <strong>{goal.name}</strong>
+              <p style={{ color: "var(--muted)", marginTop: "6px" }}>{goal.short_description}</p>
+            </div>
+          ))}
         </div>
-      </main>
-    </div>
+      </section>
+
+      <section>
+        <h2 style={{ fontSize: "28px", marginBottom: "12px" }}>Industries</h2>
+        <div style={{ display: "grid", gap: "12px" }}>
+          {industries.map((industry: any) => (
+            <div key={industry.id} style={{ padding: "16px", border: "1px solid var(--border)", borderRadius: "16px" }}>
+              <strong>{industry.name}</strong>
+              <p style={{ color: "var(--muted)", marginTop: "6px" }}>{industry.short_description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
   );
 }
