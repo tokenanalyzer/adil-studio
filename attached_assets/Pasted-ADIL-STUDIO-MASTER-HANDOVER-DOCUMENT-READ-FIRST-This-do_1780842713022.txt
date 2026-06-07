@@ -1,0 +1,397 @@
+ADIL STUDIO - MASTER HANDOVER DOCUMENT
+
+READ FIRST
+
+This document is the official source of truth for Adil Studio.
+
+Before writing any code:
+
+1. Audit the existing codebase.
+2. Compare the codebase against this document.
+3. Confirm what is already completed.
+4. Continue only from the current project state.
+5. Do not restart development from scratch.
+
+---
+
+ENVIRONMENT VARIABLES
+
+IMPORTANT
+
+This project already uses an existing Supabase project.
+
+DO NOT create a new Supabase project.
+
+DO NOT migrate to another backend.
+
+DO NOT replace the existing database.
+
+If any environment variables are required, request them from the project owner.
+
+Examples may include:
+
+- NEXT_PUBLIC_SUPABASE_URL
+- NEXT_PUBLIC_SUPABASE_ANON_KEY
+- SUPABASE_SERVICE_ROLE_KEY
+
+If additional variables are required, request them before implementation.
+
+The project owner will provide them and add them to Replit Secrets.
+
+---
+
+EXISTING INFRASTRUCTURE
+
+Already implemented:
+
+- Next.js App Router
+- Supabase Integration
+- Admin Authentication
+- Middleware Protection
+- Public Routing
+- Admin Routing
+- Lead Capture Flow
+- GitHub Backup
+- Database Migrations
+- RLS Policies
+- Seed Data
+
+These systems are verified.
+
+Do not rebuild them.
+
+---
+
+VERIFIED CMS V1
+
+The following systems have been verified and are considered complete:
+
+Goals CMS
+
+PASS
+
+- Create
+- Read
+- Update
+- Delete
+
+Industries CMS
+
+PASS
+
+- Create
+- Read
+- Update
+- Delete
+
+Variants CMS
+
+PASS
+
+- Create
+- Read
+- Update
+- Delete
+
+Services CMS
+
+PASS
+
+- Create
+- Read
+- Update
+- Delete
+
+Portfolio CMS
+
+PASS
+
+- Create
+- Read
+- Update
+- Delete
+
+Settings CMS
+
+PASS
+
+- Read
+- Update
+
+Leads View
+
+PASS
+
+---
+
+PUBLIC SYNCHRONIZATION
+
+Verified:
+
+Admin Update
+↓
+Database Save
+↓
+Public Website Update
+↓
+Refresh Persistence
+
+PASS
+
+---
+
+DATABASE
+
+Known existing tables:
+
+- site_settings
+- goals
+- industries
+- themes
+- studio_variants
+- content_blocks
+- services
+- portfolio_items
+- leads
+- adi_sessions
+- adi_messages
+
+These tables already exist.
+
+Do not redesign schema unless a verified bug requires it.
+
+---
+
+GITHUB
+
+Project is already backed up.
+
+Repository:
+
+https://github.com/tokenanalyzer/adil-studio
+
+Current CMS V1 state is recoverable.
+
+Before major work:
+
+- create branch
+- work inside branch
+- merge only after verification
+
+---
+
+LOGO AND HERO SECTION
+
+IMPORTANT
+
+The founder will provide:
+
+- Final Logo
+- Hero Images
+- Brand Assets
+- Marketing Visuals
+
+Until those assets are provided:
+
+- Use placeholders
+- Build flexible sections
+- Do not spend time creating final branding assets
+
+The system must allow easy replacement later.
+
+---
+
+DO NOT REBUILD
+
+The following systems are considered stable:
+
+- Goals CMS
+- Industries CMS
+- Variants CMS
+- Services CMS
+- Portfolio CMS
+- Settings CMS
+- Leads System
+- Admin Authentication
+- Supabase Integration
+- Database Schema
+- Public Sync
+
+Do not rewrite them.
+
+Do not redesign them.
+
+Do not replace them.
+
+Unless a verified bug exists.
+
+---
+
+CURRENT PRODUCT GAP
+
+CMS is complete.
+
+The remaining work is concentrated in:
+
+1. Website Experience
+2. Adi AI
+3. Production Readiness
+
+---
+
+PHASE A - WEBSITE POLISH
+
+Priority: HIGH
+
+Current Status:
+
+Functional but not premium.
+
+Required work:
+
+- Homepage redesign
+- Premium hero layout
+- Better typography
+- Better visual hierarchy
+- Services presentation
+- Portfolio showcase
+- Testimonials section
+- Social proof
+- Strong CTA sections
+- Mobile-first optimization
+- Responsive polish
+- Premium UI/UX improvements
+
+Goal:
+
+Make Adil Studio look like a premium modern digital studio.
+
+---
+
+PHASE B - ADI AI PHASE 3
+
+Priority: HIGH
+
+Known status:
+
+PARTIAL
+
+Known facts:
+
+- /api/adi exists
+- Adi foundation exists
+- adi_sessions table exists
+- adi_messages table exists
+
+Required work:
+
+1. Audit current Adi implementation
+2. Complete API logic
+3. Add goal awareness
+4. Add industry awareness
+5. Connect Adi UI properly
+6. Improve lead qualification
+7. Implement conversation persistence
+8. Restore conversations after refresh
+9. Complete AI Project Architect workflow
+
+Goal:
+
+Adi becomes a fully functional AI Project Architect.
+
+---
+
+PHASE C - PRODUCTION READINESS
+
+Priority: MEDIUM
+
+Required work:
+
+- Deployment audit
+- Environment audit
+- Mobile QA
+- Performance testing
+- Accessibility review
+- Error monitoring
+- Production verification
+
+Goal:
+
+Deploy safely without affecting CMS V1 stability.
+
+---
+
+PHASE D - BUSINESS IMPROVEMENTS
+
+Priority: MEDIUM
+
+Possible future work:
+
+- Lead qualification workflows
+- Lead status pipelines
+- Analytics
+- Conversion tracking
+- Reporting
+
+Only after Website Polish and Adi AI are complete.
+
+---
+
+DEVELOPMENT RULES
+
+Before any implementation:
+
+1. Audit current code.
+2. Compare against this document.
+3. Confirm completed systems.
+4. Work only on missing functionality.
+
+Never:
+
+- Rebuild CMS
+- Rebuild Authentication
+- Rebuild Leads
+- Rebuild Database
+- Rebuild Supabase
+- Create a new Supabase project
+
+unless a verified bug exists.
+
+---
+
+CURRENT STATUS
+
+CMS V1:
+COMPLETE
+
+Infrastructure:
+COMPLETE
+
+GitHub Backup:
+COMPLETE
+
+Website Polish:
+PENDING
+
+Adi AI:
+PARTIAL
+
+Production Readiness:
+PARTIAL
+
+Overall Project:
+Approximately 85–90% Complete
+
+---
+
+IMMEDIATE NEXT STEP
+
+1. Audit existing codebase.
+2. Request any missing environment variables if needed.
+3. Confirm completed systems.
+4. Begin Website Polish.
+5. Continue with Adi AI Phase 3.
+6. Prepare for Production Readiness.
+
+Do not restart completed work.
+Continue from the existing verified state.
