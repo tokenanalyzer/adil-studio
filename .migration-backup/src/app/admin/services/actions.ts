@@ -11,15 +11,15 @@ export async function createService(formData: FormData) {
   const supabase = await createClient();
 
   const slug = asString(formData.get("slug"));
-  const name = asString(formData.get("name"));
+  const title = asString(formData.get("title"));
 
-  if (!name || !slug) {
-    throw new Error("Name and slug are required.");
+  if (!title || !slug) {
+    throw new Error("Title and slug are required.");
   }
 
   const { error } = await supabase.from("services").insert({
     slug,
-    name,
+    title,
   });
 
   if (error) {
@@ -34,21 +34,21 @@ export async function updateService(formData: FormData) {
 
   const id = asString(formData.get("id"));
   const slug = asString(formData.get("slug"));
-  const name = asString(formData.get("name"));
+  const title = asString(formData.get("title"));
 
   if (!id) {
     throw new Error("Service id is required.");
   }
 
-  if (!name || !slug) {
-    throw new Error("Name and slug are required.");
+  if (!title || !slug) {
+    throw new Error("Title and slug are required.");
   }
 
   const { error } = await supabase
     .from("services")
     .update({
       slug,
-      name,
+      title,
     })
     .eq("id", id);
 

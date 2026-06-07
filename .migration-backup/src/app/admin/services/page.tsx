@@ -4,7 +4,7 @@ import { createService, updateService } from "./actions";
 type Service = {
   id: string;
   slug: string | null;
-  name: string | null;
+  title: string | null;
   created_at: string | null;
 };
 
@@ -13,7 +13,7 @@ export default async function AdminServicesPage() {
 
   const { data, error } = await supabase
     .from("services")
-    .select("id, slug, name, created_at")
+    .select("id, slug, title, created_at")
     .order("created_at", { ascending: true });
 
   if (error) {
@@ -28,7 +28,7 @@ export default async function AdminServicesPage() {
         <p style={{ color: "var(--muted)" }}>Admin</p>
         <h1 style={{ fontSize: "42px", lineHeight: 1.1 }}>Services</h1>
         <p style={{ color: "var(--muted)", maxWidth: 720 }}>
-          Manage service records using only safe existing fields.
+          Manage service records.
         </p>
       </section>
 
@@ -44,14 +44,14 @@ export default async function AdminServicesPage() {
         <div style={{ display: "grid", gap: 4 }}>
           <h2 style={{ fontSize: 24 }}>Create service</h2>
           <p style={{ color: "var(--muted)" }}>
-            Add a new service with only name and slug.
+            Add a new service with a title and slug.
           </p>
         </div>
 
         <form action={createService} style={{ display: "grid", gap: 12 }}>
           <label style={labelStyle}>
-            <span>Name</span>
-            <input name="name" required placeholder="Web Design" style={fieldStyle} />
+            <span>Title</span>
+            <input name="title" required placeholder="Web Design" style={fieldStyle} />
           </label>
 
           <label style={labelStyle}>
@@ -69,7 +69,7 @@ export default async function AdminServicesPage() {
         <div style={{ display: "grid", gap: 4 }}>
           <h2 style={{ fontSize: 24 }}>Existing services</h2>
           <p style={{ color: "var(--muted)" }}>
-            Edit current service records safely.
+            Edit current service records.
           </p>
         </div>
 
@@ -97,7 +97,7 @@ export default async function AdminServicesPage() {
                 }}
               >
                 <div style={{ display: "grid", gap: 4 }}>
-                  <strong style={{ fontSize: 18 }}>{service.name || "Untitled service"}</strong>
+                  <strong style={{ fontSize: 18 }}>{service.title || "Untitled service"}</strong>
                   <span style={{ color: "var(--muted)", fontSize: 14 }}>
                     Slug: {service.slug || "missing-slug"}
                   </span>
@@ -110,11 +110,11 @@ export default async function AdminServicesPage() {
                   <input type="hidden" name="id" value={service.id} />
 
                   <label style={labelStyle}>
-                    <span>Name</span>
+                    <span>Title</span>
                     <input
-                      name="name"
+                      name="title"
                       required
-                      defaultValue={service.name ?? ""}
+                      defaultValue={service.title ?? ""}
                       style={fieldStyle}
                     />
                   </label>

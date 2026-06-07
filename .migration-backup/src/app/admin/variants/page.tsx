@@ -4,23 +4,47 @@ import { createVariant, updateVariant } from "./actions";
 type Variant = {
   id: string;
   slug: string | null;
-  name: string | null;
+  hero_heading: string | null;
   created_at: string | null;
+};
+
+type Goal = {
+  id: string;
+  name: string;
+};
+
+type Industry = {
+  id: string;
+  name: string;
 };
 
 export default async function AdminVariantsPage() {
   const supabase = await createClient();
 
-  const { data, error } = await supabase
-    .from("variants")
-    .select("id, slug, name, created_at")
-    .order("created_at", { ascending: true });
+  const [variantsResult, goalsResult, industriesResult] = await Promise.all([
+    supabase
+      .from("studio_variants")
+      .select("id, slug, hero_heading, created_at")
+      .order("created_at", { ascending: true }),
+    supabase
+      .from("goals")
+      .select("id, name")
+      .eq("is_active", true)
+      .order("position", { ascending: true }),
+    supabase
+      .from("industries")
+      .select("id, name")
+      .eq("is_active", true)
+      .order("position", { ascending: true }),
+  ]);
 
-  if (error) {
-    throw new Error(error.message);
-  }
+  if (variantsResult.error) throw new Error(variantsResult.error.message);
+  if (goalsResult.error) throw new Error(goalsResult.error.message);
+  if (industriesResult.error) throw new Error(industriesResult.error.message);
 
-  const variants = (data ?? []) as Variant[];
+  const variants = (variantsResult.data ?? []) as Variant[];
+  const goals = (goalsResult.data ?? []) as Goal[];
+  const industries = (industriesResult.data ?? []) as Industry[];
 
   return (
     <main className="container" style={{ padding: "64px 0", display: "grid", gap: 24 }}>
@@ -28,7 +52,7 @@ export default async function AdminVariantsPage() {
         <p style={{ color: "var(--muted)" }}>Admin</p>
         <h1 style={{ fontSize: "42px", lineHeight: 1.1 }}>Variants</h1>
         <p style={{ color: "var(--muted)", maxWidth: 720 }}>
-          Manage variant records using only safe existing fields.
+          Manage studio variants. Each variant maps a goal and industry to a unique page experience.
         </p>
       </section>
 
@@ -44,19 +68,39 @@ export default async function AdminVariantsPage() {
         <div style={{ display: "grid", gap: 4 }}>
           <h2 style={{ fontSize: 24 }}>Create variant</h2>
           <p style={{ color: "var(--muted)" }}>
-            Add a new variant with only name and slug.
+            Add a new variant by selecting a goal, industry, and providing a hero heading and slug.
           </p>
         </div>
 
         <form action={createVariant} style={{ display: "grid", gap: 12 }}>
           <label style={labelStyle}>
-            <span>Name</span>
-            <input name="name" required placeholder="Premium" style={fieldStyle} />
+            <span>Goal</span>
+            <select name="goal_id" required style={fieldStyle}>
+              <option value="">Select a goal…</option>
+              {goals.map((g) => (
+                <option key={g.id} value={g.id}>{g.name}</option>
+              ))}
+            </select>
+          </label>
+
+          <label style={labelStyle}>
+            <span>Industry</span>
+            <select name="industry_id" required style={fieldStyle}>
+              <option value="">Select an industry…</option>
+              {industries.map((i) => (
+                <option key={i.id} value={i.id}>{i.name}</option>
+              ))}
+            </select>
+          </label>
+
+          <label style={labelStyle}>
+            <span>Hero Heading</span>
+            <input name="hero_heading" required placeholder="A site built to convert attention into leads." style={fieldStyle} />
           </label>
 
           <label style={labelStyle}>
             <span>Slug</span>
-            <input name="slug" required placeholder="premium" style={fieldStyle} />
+            <input name="slug" required placeholder="get-clients-startup" style={fieldStyle} />
           </label>
 
           <button type="submit" style={primaryButtonStyle}>
@@ -69,7 +113,7 @@ export default async function AdminVariantsPage() {
         <div style={{ display: "grid", gap: 4 }}>
           <h2 style={{ fontSize: 24 }}>Existing variants</h2>
           <p style={{ color: "var(--muted)" }}>
-            Edit current variant records safely.
+            Edit the slug and hero heading of existing variants.
           </p>
         </div>
 
@@ -97,7 +141,7 @@ export default async function AdminVariantsPage() {
                 }}
               >
                 <div style={{ display: "grid", gap: 4 }}>
-                  <strong style={{ fontSize: 18 }}>{variant.name || "Untitled variant"}</strong>
+                  <strong style={{ fontSize: 18 }}>{variant.hero_heading || "Untitled variant"}</strong>
                   <span style={{ color: "var(--muted)", fontSize: 14 }}>
                     Slug: {variant.slug || "missing-slug"}
                   </span>
@@ -110,11 +154,11 @@ export default async function AdminVariantsPage() {
                   <input type="hidden" name="id" value={variant.id} />
 
                   <label style={labelStyle}>
-                    <span>Name</span>
+                    <span>Hero Heading</span>
                     <input
-                      name="name"
+                      name="hero_heading"
                       required
-                      defaultValue={variant.name ?? ""}
+                      defaultValue={variant.hero_heading ?? ""}
                       style={fieldStyle}
                     />
                   </label>

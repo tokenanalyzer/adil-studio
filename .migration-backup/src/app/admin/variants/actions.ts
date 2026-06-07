@@ -11,15 +11,23 @@ export async function createVariant(formData: FormData) {
   const supabase = await createClient();
 
   const slug = asString(formData.get("slug"));
-  const name = asString(formData.get("name"));
+  const hero_heading = asString(formData.get("hero_heading"));
+  const goal_id = asString(formData.get("goal_id"));
+  const industry_id = asString(formData.get("industry_id"));
 
-  if (!name || !slug) {
-    throw new Error("Name and slug are required.");
+  if (!slug || !hero_heading) {
+    throw new Error("Slug and heading are required.");
   }
 
-  const { error } = await supabase.from("variants").insert({
+  if (!goal_id || !industry_id) {
+    throw new Error("Goal and industry are required.");
+  }
+
+  const { error } = await supabase.from("studio_variants").insert({
     slug,
-    name,
+    hero_heading,
+    goal_id,
+    industry_id,
   });
 
   if (error) {
@@ -34,21 +42,21 @@ export async function updateVariant(formData: FormData) {
 
   const id = asString(formData.get("id"));
   const slug = asString(formData.get("slug"));
-  const name = asString(formData.get("name"));
+  const hero_heading = asString(formData.get("hero_heading"));
 
   if (!id) {
     throw new Error("Variant id is required.");
   }
 
-  if (!name || !slug) {
-    throw new Error("Name and slug are required.");
+  if (!slug || !hero_heading) {
+    throw new Error("Slug and heading are required.");
   }
 
   const { error } = await supabase
-    .from("variants")
+    .from("studio_variants")
     .update({
       slug,
-      name,
+      hero_heading,
     })
     .eq("id", id);
 

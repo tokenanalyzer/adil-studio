@@ -4,7 +4,7 @@ import { createPortfolioItem, updatePortfolioItem } from "./actions";
 type PortfolioItem = {
   id: string;
   slug: string | null;
-  name: string | null;
+  title: string | null;
   created_at: string | null;
 };
 
@@ -12,8 +12,8 @@ export default async function AdminPortfolioPage() {
   const supabase = await createClient();
 
   const { data, error } = await supabase
-    .from("portfolio")
-    .select("id, slug, name, created_at")
+    .from("portfolio_items")
+    .select("id, slug, title, created_at")
     .order("created_at", { ascending: true });
 
   if (error) {
@@ -28,7 +28,7 @@ export default async function AdminPortfolioPage() {
         <p style={{ color: "var(--muted)" }}>Admin</p>
         <h1 style={{ fontSize: "42px", lineHeight: 1.1 }}>Portfolio</h1>
         <p style={{ color: "var(--muted)", maxWidth: 720 }}>
-          Manage portfolio records using only safe existing fields.
+          Manage portfolio records.
         </p>
       </section>
 
@@ -44,14 +44,14 @@ export default async function AdminPortfolioPage() {
         <div style={{ display: "grid", gap: 4 }}>
           <h2 style={{ fontSize: 24 }}>Create portfolio item</h2>
           <p style={{ color: "var(--muted)" }}>
-            Add a new portfolio item with only name and slug.
+            Add a new portfolio item with a title and slug.
           </p>
         </div>
 
         <form action={createPortfolioItem} style={{ display: "grid", gap: 12 }}>
           <label style={labelStyle}>
-            <span>Name</span>
-            <input name="name" required placeholder="Case Study One" style={fieldStyle} />
+            <span>Title</span>
+            <input name="title" required placeholder="Case Study One" style={fieldStyle} />
           </label>
 
           <label style={labelStyle}>
@@ -69,7 +69,7 @@ export default async function AdminPortfolioPage() {
         <div style={{ display: "grid", gap: 4 }}>
           <h2 style={{ fontSize: 24 }}>Existing portfolio items</h2>
           <p style={{ color: "var(--muted)" }}>
-            Edit current portfolio records safely.
+            Edit current portfolio records.
           </p>
         </div>
 
@@ -97,7 +97,7 @@ export default async function AdminPortfolioPage() {
                 }}
               >
                 <div style={{ display: "grid", gap: 4 }}>
-                  <strong style={{ fontSize: 18 }}>{item.name || "Untitled portfolio item"}</strong>
+                  <strong style={{ fontSize: 18 }}>{item.title || "Untitled portfolio item"}</strong>
                   <span style={{ color: "var(--muted)", fontSize: 14 }}>
                     Slug: {item.slug || "missing-slug"}
                   </span>
@@ -110,11 +110,11 @@ export default async function AdminPortfolioPage() {
                   <input type="hidden" name="id" value={item.id} />
 
                   <label style={labelStyle}>
-                    <span>Name</span>
+                    <span>Title</span>
                     <input
-                      name="name"
+                      name="title"
                       required
-                      defaultValue={item.name ?? ""}
+                      defaultValue={item.title ?? ""}
                       style={fieldStyle}
                     />
                   </label>

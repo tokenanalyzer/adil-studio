@@ -7,26 +7,34 @@ function asString(value: FormDataEntryValue | null) {
   return String(value ?? "").trim();
 }
 
-export async function updateSetting(formData: FormData) {
+export async function updateSettings(formData: FormData) {
   const supabase = await createClient();
 
   const id = asString(formData.get("id"));
-  const key = asString(formData.get("key"));
-  const value = asString(formData.get("value"));
 
   if (!id) {
-    throw new Error("Setting id is required.");
+    throw new Error("Settings id is required.");
   }
 
-  if (!key) {
-    throw new Error("Setting key is required.");
+  const site_name = asString(formData.get("site_name"));
+  const site_tagline = asString(formData.get("site_tagline"));
+  const contact_email = asString(formData.get("contact_email"));
+  const contact_whatsapp = asString(formData.get("contact_whatsapp"));
+  const default_theme_slug = asString(formData.get("default_theme_slug"));
+
+  if (!site_name) {
+    throw new Error("Site name is required.");
   }
 
   const { error } = await supabase
-    .from("settings")
+    .from("site_settings")
     .update({
-      key,
-      value,
+      site_name,
+      site_tagline: site_tagline || null,
+      contact_email: contact_email || null,
+      contact_whatsapp: contact_whatsapp || null,
+      default_theme_slug: default_theme_slug || null,
+      updated_at: new Date().toISOString(),
     })
     .eq("id", id);
 

@@ -1,26 +1,29 @@
 import { createClient } from "@/lib/supabase/server";
-import { updateSetting } from "./actions";
+import { updateSettings } from "./actions";
 
-type Setting = {
+type SiteSettings = {
   id: string;
-  key: string | null;
-  value: string | null;
-  created_at: string | null;
+  site_name: string | null;
+  site_tagline: string | null;
+  contact_email: string | null;
+  contact_whatsapp: string | null;
+  default_theme_slug: string | null;
+  updated_at: string | null;
 };
 
 export default async function AdminSettingsPage() {
   const supabase = await createClient();
 
   const { data, error } = await supabase
-    .from("settings")
-    .select("id, key, value, created_at")
-    .order("created_at", { ascending: true });
+    .from("site_settings")
+    .select("id, site_name, site_tagline, contact_email, contact_whatsapp, default_theme_slug, updated_at")
+    .maybeSingle();
 
   if (error) {
     throw new Error(error.message);
   }
 
-  const settings = (data ?? []) as Setting[];
+  const settings = data as SiteSettings | null;
 
   return (
     <main className="container" style={{ padding: "64px 0", display: "grid", gap: 24 }}>
@@ -28,83 +31,100 @@ export default async function AdminSettingsPage() {
         <p style={{ color: "var(--muted)" }}>Admin</p>
         <h1 style={{ fontSize: "42px", lineHeight: 1.1 }}>Settings</h1>
         <p style={{ color: "var(--muted)", maxWidth: 720 }}>
-          Update existing settings using safe existing fields only.
+          Update global site settings.
         </p>
       </section>
 
-      <section style={{ display: "grid", gap: 12 }}>
-        <div style={{ display: "grid", gap: 4 }}>
-          <h2 style={{ fontSize: 24 }}>Existing settings</h2>
-          <p style={{ color: "var(--muted)" }}>
-            Edit key and value pairs currently stored in the database.
-          </p>
+      {settings === null ? (
+        <div
+          style={{
+            border: "1px solid var(--border)",
+            borderRadius: 18,
+            padding: 16,
+          }}
+        >
+          No settings record found. Run the seed migration to create one.
         </div>
-
-        {settings.length === 0 ? (
-          <div
-            style={{
-              border: "1px solid var(--border)",
-              borderRadius: 18,
-              padding: 16,
-            }}
-          >
-            No settings found.
+      ) : (
+        <section
+          style={{
+            border: "1px solid var(--border)",
+            borderRadius: 20,
+            padding: 16,
+            display: "grid",
+            gap: 14,
+          }}
+        >
+          <div style={{ display: "grid", gap: 4 }}>
+            <h2 style={{ fontSize: 24 }}>Site settings</h2>
+            {settings.updated_at && (
+              <p style={{ color: "var(--muted)", fontSize: 13 }}>
+                Last updated: {new Date(settings.updated_at).toLocaleString()}
+              </p>
+            )}
           </div>
-        ) : (
-          <div style={{ display: "grid", gap: 12 }}>
-            {settings.map((setting) => (
-              <article
-                key={setting.id}
-                style={{
-                  border: "1px solid var(--border)",
-                  borderRadius: 18,
-                  padding: 16,
-                  display: "grid",
-                  gap: 14,
-                }}
-              >
-                <div style={{ display: "grid", gap: 4 }}>
-                  <strong style={{ fontSize: 18 }}>{setting.key || "Untitled setting"}</strong>
-                  <span style={{ color: "var(--muted)", fontSize: 14 }}>
-                    Value: {setting.value || ""}
-                  </span>
-                  <span style={{ color: "var(--muted)", fontSize: 13 }}>
-                    {setting.created_at ? new Date(setting.created_at).toLocaleString() : ""}
-                  </span>
-                </div>
 
-                <form action={updateSetting} style={{ display: "grid", gap: 12 }}>
-                  <input type="hidden" name="id" value={setting.id} />
+          <form action={updateSettings} style={{ display: "grid", gap: 12 }}>
+            <input type="hidden" name="id" value={settings.id} />
 
-                  <label style={labelStyle}>
-                    <span>Key</span>
-                    <input
-                      name="key"
-                      required
-                      defaultValue={setting.key ?? ""}
-                      style={fieldStyle}
-                    />
-                  </label>
+            <label style={labelStyle}>
+              <span>Site Name</span>
+              <input
+                name="site_name"
+                required
+                defaultValue={settings.site_name ?? ""}
+                placeholder="Adil Studio"
+                style={fieldStyle}
+              />
+            </label>
 
-                  <label style={labelStyle}>
-                    <span>Value</span>
-                    <textarea
-                      name="value"
-                      defaultValue={setting.value ?? ""}
-                      style={textareaStyle}
-                      rows={4}
-                    />
-                  </label>
+            <label style={labelStyle}>
+              <span>Site Tagline</span>
+              <input
+                name="site_tagline"
+                defaultValue={settings.site_tagline ?? ""}
+                placeholder="Adaptive Digital Studio"
+                style={fieldStyle}
+              />
+            </label>
 
-                  <button type="submit" style={primaryButtonStyle}>
-                    Save setting
-                  </button>
-                </form>
-              </article>
-            ))}
-          </div>
-        )}
-      </section>
+            <label style={labelStyle}>
+              <span>Contact Email</span>
+              <input
+                name="contact_email"
+                type="email"
+                defaultValue={settings.contact_email ?? ""}
+                placeholder="hello@example.com"
+                style={fieldStyle}
+              />
+            </label>
+
+            <label style={labelStyle}>
+              <span>Contact WhatsApp</span>
+              <input
+                name="contact_whatsapp"
+                defaultValue={settings.contact_whatsapp ?? ""}
+                placeholder="+91XXXXXXXXXX"
+                style={fieldStyle}
+              />
+            </label>
+
+            <label style={labelStyle}>
+              <span>Default Theme Slug</span>
+              <input
+                name="default_theme_slug"
+                defaultValue={settings.default_theme_slug ?? ""}
+                placeholder="obsidian-neon"
+                style={fieldStyle}
+              />
+            </label>
+
+            <button type="submit" style={primaryButtonStyle}>
+              Save settings
+            </button>
+          </form>
+        </section>
+      )}
     </main>
   );
 }
@@ -121,16 +141,6 @@ const fieldStyle: React.CSSProperties = {
   border: "1px solid var(--border)",
   background: "transparent",
   color: "inherit",
-};
-
-const textareaStyle: React.CSSProperties = {
-  width: "100%",
-  padding: "14px 16px",
-  borderRadius: 14,
-  border: "1px solid var(--border)",
-  background: "transparent",
-  color: "inherit",
-  resize: "vertical",
 };
 
 const primaryButtonStyle: React.CSSProperties = {
