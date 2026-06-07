@@ -1,1 +1,1 @@
-- [Adil Studio project rules](adil-studio-rules.md) — Master Handover Document overrides all assumptions; .migration-backup/ is the authoritative Next.js source
+- [Adil Studio project rules](adil-studio-rules.md) — user overrode migration task; .migration-backup/ is authoritative Next.js source, keep Next.js as-is
