@@ -1,0 +1,1 @@
+- [Adil Studio project rules](adil-studio-rules.md) — Master Handover Document overrides all assumptions; .migration-backup/ is the authoritative Next.js source
