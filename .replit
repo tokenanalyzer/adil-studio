@@ -1,4 +1,4 @@
-modules = ["nodejs-24"]
+modules = ["nodejs-24", "postgresql-16"]
 
 [deployment]
 router = "application"
@@ -35,3 +35,6 @@ externalPort = 80
 
 [userenv.shared]
 NEXT_PUBLIC_SITE_URL = "https://ce19792e-6ff6-480e-be51-f5c7bd25c9ed-00-3o2c4rqef3lkj.sisko.replit.dev"
+
+[nix]
+channel = "stable-25_05"
