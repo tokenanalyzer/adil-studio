@@ -30,3 +30,8 @@ externalPort = 8081
 [[ports]]
 localPort = 20354
 externalPort = 80
+
+[userenv]
+
+[userenv.shared]
+NEXT_PUBLIC_SITE_URL = "https://ce19792e-6ff6-480e-be51-f5c7bd25c9ed-00-3o2c4rqef3lkj.sisko.replit.dev"

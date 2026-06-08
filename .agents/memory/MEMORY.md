@@ -1,1 +1,2 @@
 - [Adil Studio project rules](adil-studio-rules.md) — user overrode migration task; .migration-backup/ is authoritative Next.js source, keep Next.js as-is
+- [Adil Studio artifact wiring](adil-studio-artifact.md) — artifact.toml dev run = `cd /home/runner/workspace/.migration-backup && pnpm run dev`; integratedSkills block cannot be removed; Next.js 16 at port 20354; next already installed in .migration-backup/node_modules (npm install works, pnpm install bubbles to workspace root)

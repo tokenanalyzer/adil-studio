@@ -15,7 +15,7 @@ export async function submitLead(formData: FormData) {
   const { error } = await supabase.from("leads").insert({
     full_name: name,
     email: email || null,
-    phone: phone || null,
+    whatsapp: phone || null,
     company_name: company || null,
     notes: message,
     source: "contact_form",
