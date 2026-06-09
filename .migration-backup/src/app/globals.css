@@ -1,28 +1,105 @@
+/* ─── Reset ──────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { color-scheme: dark; scroll-behavior: smooth; }
+a { color: inherit; text-decoration: none; }
+button, input, textarea, select { font: inherit; }
+img, video { display: block; max-width: 100%; }
+
+/* ─── Token System ───────────────────────────────────────────────── */
 :root {
-  --bg: #05070b;
-  --surface: #0c111b;
+  /* Base palette */
+  --bg:        #04060d;
+  --bg-2:      #080c16;
+  --surface:   #0c1220;
   --surface-2: #111827;
-  --text: #f5f7fa;
-  --muted: #94a3b8;
-  --primary: #1e5eff;
-  --primary-hover: #1a52e8;
-  --border: rgba(255,255,255,0.10);
-  --border-hover: rgba(255,255,255,0.20);
-  --radius: 16px;
+  --text:      #f0f4ff;
+  --text-2:    #c8d4e8;
+  --muted:     #6b7fa3;
+  --border:    rgba(255,255,255,0.08);
+  --border-2:  rgba(255,255,255,0.14);
+  --radius:    18px;
+  --radius-sm: 10px;
+
+  /* Active accent — updated by JS on selection */
+  --accent:      #3b82f6;
+  --accent-glow: rgba(59,130,246,0.22);
+  --accent-dim:  rgba(59,130,246,0.10);
+  --accent-text: #93c5fd;
+
+  /* Transitions */
+  transition:
+    --accent 0s,
+    background-color 0.5s ease,
+    border-color 0.5s ease,
+    color 0.4s ease,
+    box-shadow 0.5s ease;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { color-scheme: dark; }
+
+/* ─── Body ───────────────────────────────────────────────────────── */
 body {
   min-height: 100vh;
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-inter, 'Inter', Arial, sans-serif);
+  font-family: var(--font-inter, 'Inter', system-ui, Arial, sans-serif);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
-a { color: inherit; text-decoration: none; }
-button, input, textarea, select { font: inherit; }
+
+/* ─── Layout ─────────────────────────────────────────────────────── */
 .container {
-  width: min(1120px, calc(100% - 32px));
+  width: min(1120px, calc(100% - 40px));
   margin-inline: auto;
+}
+.container-wide {
+  width: min(1400px, calc(100% - 40px));
+  margin-inline: auto;
+}
+
+/* ─── Keyframes ──────────────────────────────────────────────────── */
+@keyframes orb-pulse {
+  0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.7; }
+  33%       { transform: scale(1.08) translate(2%, -3%); opacity: 0.9; }
+  66%       { transform: scale(0.94) translate(-2%, 2%); opacity: 0.6; }
+}
+@keyframes orb-pulse-2 {
+  0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.4; }
+  50%       { transform: scale(1.12) translate(3%, 2%); opacity: 0.6; }
+}
+@keyframes hero-enter {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes kicker-enter {
+  from { opacity: 0; transform: translateY(8px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes shimmer-in {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes scan-line {
+  from { top: 0; }
+  to   { top: 100%; }
+}
+@keyframes grid-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes float-badge {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+/* ─── Accent-driven transitions ──────────────────────────────────── */
+.accent-transition {
+  transition: background-color 0.5s ease, border-color 0.5s ease, color 0.4s ease, box-shadow 0.5s ease;
 }
