@@ -7,32 +7,20 @@ img, video { display: block; max-width: 100%; }
 
 /* ─── Token System ───────────────────────────────────────────────── */
 :root {
-  /* Base palette */
   --bg:        #04060d;
-  --bg-2:      #080c16;
-  --surface:   #0c1220;
-  --surface-2: #111827;
-  --text:      #f0f4ff;
-  --text-2:    #c8d4e8;
-  --muted:     #6b7fa3;
-  --border:    rgba(255,255,255,0.08);
-  --border-2:  rgba(255,255,255,0.14);
+  --bg-2:      #070b16;
+  --surface:   #0b1120;
+  --surface-2: #101826;
+  --text:      #eef2ff;
+  --text-2:    #b8c8e4;
+  --muted:     #617090;
+  --border:    rgba(255,255,255,0.07);
+  --border-2:  rgba(255,255,255,0.13);
   --radius:    18px;
   --radius-sm: 10px;
-
-  /* Active accent — updated by JS on selection */
-  --accent:      #3b82f6;
-  --accent-glow: rgba(59,130,246,0.22);
-  --accent-dim:  rgba(59,130,246,0.10);
-  --accent-text: #93c5fd;
-
-  /* Transitions */
-  transition:
-    --accent 0s,
-    background-color 0.5s ease,
-    border-color 0.5s ease,
-    color 0.4s ease,
-    box-shadow 0.5s ease;
+  --accent:    #3b82f6;
+  --accent-glow: rgba(59,130,246,0.20);
+  --accent-dim:  rgba(59,130,246,0.09);
 }
 
 /* ─── Body ───────────────────────────────────────────────────────── */
@@ -51,55 +39,54 @@ body {
   width: min(1120px, calc(100% - 40px));
   margin-inline: auto;
 }
-.container-wide {
-  width: min(1400px, calc(100% - 40px));
-  margin-inline: auto;
-}
 
 /* ─── Keyframes ──────────────────────────────────────────────────── */
 @keyframes orb-pulse {
-  0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.7; }
-  33%       { transform: scale(1.08) translate(2%, -3%); opacity: 0.9; }
-  66%       { transform: scale(0.94) translate(-2%, 2%); opacity: 0.6; }
+  0%,100% { transform: scale(1) translate(0,0); opacity:.7; }
+  33%      { transform: scale(1.09) translate(2%,-3%); opacity:.9; }
+  66%      { transform: scale(.93) translate(-2%,2%); opacity:.55; }
 }
 @keyframes orb-pulse-2 {
-  0%, 100% { transform: scale(1) translate(0, 0); opacity: 0.4; }
-  50%       { transform: scale(1.12) translate(3%, 2%); opacity: 0.6; }
+  0%,100% { transform: scale(1) translate(0,0); opacity:.35; }
+  50%      { transform: scale(1.13) translate(3%,2%); opacity:.55; }
+}
+@keyframes layout-enter {
+  from { opacity:0; transform:translateY(14px); }
+  to   { opacity:1; transform:translateY(0); }
 }
 @keyframes hero-enter {
-  from { opacity: 0; transform: translateY(18px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity:0; transform:translateY(20px); }
+  to   { opacity:1; transform:translateY(0); }
 }
 @keyframes kicker-enter {
-  from { opacity: 0; transform: translateY(8px) scale(0.95); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+  from { opacity:0; transform:translateY(6px) scale(.96); }
+  to   { opacity:1; transform:translateY(0) scale(1); }
 }
 @keyframes fade-up {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity:0; transform:translateY(24px); }
+  to   { opacity:1; transform:translateY(0); }
 }
-@keyframes shimmer-in {
-  from { opacity: 0; transform: translateX(-8px); }
-  to   { opacity: 1; transform: translateX(0); }
+@keyframes modal-enter {
+  from { opacity:0; transform:translateY(20px) scale(.97); }
+  to   { opacity:1; transform:translateY(0) scale(1); }
+}
+@keyframes backdrop-enter {
+  from { opacity:0; }
+  to   { opacity:1; }
 }
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-@keyframes scan-line {
-  from { top: 0; }
-  to   { top: 100%; }
+  from { transform:translateX(0); }
+  to   { transform:translateX(-50%); }
 }
 @keyframes grid-fade {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from { opacity:0; }
+  to   { opacity:1; }
 }
-@keyframes float-badge {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-6px); }
+@keyframes pulse-dot {
+  0%,100% { opacity:1; transform:scale(1); }
+  50%      { opacity:.5; transform:scale(.7); }
 }
-
-/* ─── Accent-driven transitions ──────────────────────────────────── */
-.accent-transition {
-  transition: background-color 0.5s ease, border-color 0.5s ease, color 0.4s ease, box-shadow 0.5s ease;
+@keyframes shimmer-badge {
+  0%,100% { transform:translateY(0); }
+  50%      { transform:translateY(-4px); }
 }

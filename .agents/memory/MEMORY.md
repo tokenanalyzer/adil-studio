@@ -1,2 +1,2 @@
-- [Adil Studio project rules](adil-studio-rules.md) — user overrode migration task; .migration-backup/ is authoritative Next.js source, keep Next.js as-is
-- [Adil Studio artifact wiring](adil-studio-artifact.md) — artifact.toml dev run = `cd /home/runner/workspace/.migration-backup && pnpm run dev`; integratedSkills block cannot be removed; Next.js 16 at port 20354; next already installed in .migration-backup/node_modules (npm install works, pnpm install bubbles to workspace root)
+- [Shapeshifter Engine architecture](shapeshifter-engine.md) — 4 goal layouts use React key remount for true structural switching; industry only re-animates text
+- [Adil Studio project constraints](adil-studio-constraints.md) — migration-backup is authoritative; never convert to Vite; Nav must be client component for modal events
